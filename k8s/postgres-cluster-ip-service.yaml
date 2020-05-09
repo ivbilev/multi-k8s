@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+#object with type service
+metadata: 
+  name: postgres-cluster-ip-service
+spec:
+  #configure the way that service behaves 
+  type: ClusterIP
+  selector:
+    #service know what set of pods to access
+    component: postgres
+    #name comes from the lable from client deploument yaml
+  ports:
+    - port: 5432
+      targetPort: 5432    

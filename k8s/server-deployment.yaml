@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: server-deployment
+spec:
+  #customize how this deployment behaves
+  replicas: 3
+  #number of the pods
+  selector:
+    #deployment going to use to find the set ot pods that is suyposed to control
+    matchLabels:
+      component: server
+      #component could be any name
+  template:
+    metadata:
+      labels:
+        component: server
+        #must match the spec component
+    spec:
+      #specify the behavior of the pods that will be created
+      containers:
+        #in this case we have only one container
+        - name: server
+          image: ivanb1/multi-server
+          ports:
+            - containerPort: 5000
+          env:
+            - name: REDIS_HOST
+              value: redis-cluster-ip-service
+            - name: REDIS_PORT
+              value: '6379'
+            - name: PGUSER
+              value: postgres
+            - name: PGHOST
+              value: postgres-cluster-ip-service
+            - name: PGPORT
+              value: '5432'
+            - name: PGDATABASE
+              value: postgres
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
+
+
+          

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: redis-deployment
+spec:
+  #customize how this deployment behaves
+  replicas: 1
+  #number of the pods
+  selector:
+    #deployment going to use to find the set ot pods that is suyposed to control
+    matchLabels:
+      component: redis
+      #component could be any name
+  template:
+    #pod template
+    metadata:
+      labels:
+        component: redis
+        #must match the spec component
+    spec:
+      #specify the behavior of the pods that will be created
+      containers:
+        #in this case we have only one container
+        - name: redis-deployment
+          image: redis
+          ports:
+            - containerPort: 6379         

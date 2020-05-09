@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+#object with type service
+metadata: 
+  name: client-cluster-ip-service
+spec:
+  #configure the way that service behaves 
+  type: ClusterIP
+  selector:
+    #service know what pods to access
+    component: web
+    #name comes from the lable from client deploument yaml
+  ports:
+    - port: 3000
+      targetPort: 3000    

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: postgres-deployment
+spec:
+  #customize how this deployment behaves
+  replicas: 1
+  #number of the pods
+  selector:
+    #deployment going to use to find the set ot pods that is suyposed to control
+    matchLabels:
+      component: postgres
+      #component could be any name
+  template:
+    #pod template
+    metadata:
+      labels:
+        component: postgres
+        #must match the spec component
+    spec:
+      #specify the behavior of the pods that will be created
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
+      containers:
+        #in this case we have only one container
+        - name: postgres-deployment
+          image: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: postgress
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_DB
+              value: postgres
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+              #spicific for postgres
+              subPath: postgres         
