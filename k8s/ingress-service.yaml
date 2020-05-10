@@ -9,15 +9,21 @@ metadata:
     # how the actual copy of nginx behaves, handle the request
     # UPDATE THIS LINE ABOVE
 spec:
+  tls:
+    - hosts:
+        - k8s-multi.com
+        - www.k8s-multi.com
+      secretName: k8s-multi-com
   rules:
-    - http:
+    - host: k8s-multi.com
+      http:
         paths:
-          - path: /
+          - path: /?(.*)
           # UPDATE THIS LINE ABOVE
             backend:
               serviceName: client-cluster-ip-service
               servicePort: 3000
-          - path: /api
+          - path: /api/?(.*)
           # UPDATE THIS LINE ABOVE
             backend:
               serviceName: server-cluster-ip-service
