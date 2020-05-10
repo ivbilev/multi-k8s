@@ -1,9 +1,8 @@
 echo $TRAVIS_BUILD_DIR
-bash pwd
-ls
-docker build -t ivanb1/multi-client:latest -t ivanb1/multi-client:$SHA -f ./client/Dockerfile ./client
-docker build -t ivanb1/multi-server:latest -t ivanb1/multi-server:$SHA -f ./server/Dockerfile ./server
-docker build -t ivanb1/multi-worker:latest -t ivanb1/multi-worker:$SHA -f ./worker/Dockerfile ./worker
+
+docker build -t ivanb1/multi-client:latest -t ivanb1/multi-client:$SHA -f /home/travis/build/ivbilev/multi-k8s/client/Dockerfile /home/travis/build/ivbilev/multi-k8s/client
+docker build -t ivanb1/multi-server:latest -t ivanb1/multi-server:$SHA -f /home/travis/build/ivbilev/multi-k8s/server/Dockerfile /home/travis/build/ivbilev/multi-k8s/server
+docker build -t ivanb1/multi-worker:latest -t ivanb1/multi-worker:$SHA -f /home/travis/build/ivbilev/multi-k8s/worker/Dockerfile /home/travis/build/ivbilev/multi-k8s/worker
 docker push ivanb1/multi-client:latest
 docker push ivanb1/multi-client:$SHA
 docker push ivanb1/multi-server:latest
