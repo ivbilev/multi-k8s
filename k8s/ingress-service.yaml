@@ -4,27 +4,16 @@ metadata:
   name: ingress-service
   annotations:
     kubernetes.io/ingress.class: nginx
-    #configuration rule telling kubernetes to create ingress controler based on nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-    # how the actual copy of nginx behaves, handle the request
-    # UPDATE THIS LINE ABOVE
 spec:
-  tls:
-    - hosts:
-        - k8s-multi.com
-        - www.k8s-multi.com
-      secretName: k8s-multi-com
   rules:
-    - host: k8s-multi.com
-      http:
+    - http:
         paths:
           - path: /?(.*)
-          # UPDATE THIS LINE ABOVE
             backend:
               serviceName: client-cluster-ip-service
               servicePort: 3000
           - path: /api/?(.*)
-          # UPDATE THIS LINE ABOVE
             backend:
               serviceName: server-cluster-ip-service
               servicePort: 5000
