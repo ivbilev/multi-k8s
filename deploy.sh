@@ -1,5 +1,6 @@
-pwd
-ls -al
+echo $TRAVIS_BUILD_DIR
+bash pwd
+ls
 docker build -t ivanb1/multi-client:latest -t ivanb1/multi-client:$SHA -f ./client/Dockerfile ./client
 docker build -t ivanb1/multi-server:latest -t ivanb1/multi-server:$SHA -f ./server/Dockerfile ./server
 docker build -t ivanb1/multi-worker:latest -t ivanb1/multi-worker:$SHA -f ./worker/Dockerfile ./worker
