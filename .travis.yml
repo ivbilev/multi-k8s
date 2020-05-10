@@ -1,0 +1,36 @@
+sudo: required
+service:
+  - docker
+  #to preinstall docker service as soon as we run our build
+env:
+  global:
+    - SHA=$(git rev-parse HEAD)
+    #creats env variable we going to use for the versions
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1  
+before_install:
+  #flag
+  - openssl aes-256-cbc -K $encrypted_9f3b5599b056_key -iv $encrypted_9f3b5599b056_iv -in service-account.json.enc -out service-account.json -d
+  - curl https://sdk.cloud.google.com | bash > /dev/null;
+  #download and install google sdk
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  # look the default install directory 
+  - gcloud components update kubectl
+  #making sure kubectl is installed , install and update kubectl in the travis environment
+  - gcloud auth activate-service-account --key-file service-account.json
+  #autoriztaion with sdk, activating service accoutn
+  - gcloud config set project multi-k8s-276711
+  - gcloud confi set compute/zone us-central1-c
+  - gcloud container cluster get-credentials multi-cluster
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" -- password-stdin
+  #this is per project in the travis, used to log in docker cli
+  - docker build -e CI=true ivanb1/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true ivanb1/react-test npm run test
+
+deploy:
+  provider: script
+  #telling trivis to run the script
+  script: bash ./deploy.sh
+  on:
+    branch: master
