@@ -1,3 +1,4 @@
+# must be saved with :set fileformat=unix
 docker build -t ivanb1/multi-client:latest -t ivanb1/multi-client:$SHA -f ./client/Dockerfile ./client
 docker build -t ivanb1/multi-server:latest -t ivanb1/multi-server:$SHA -f ./server/Dockerfile ./server
 docker build -t ivanb1/multi-worker:latest -t ivanb1/multi-worker:$SHA -f ./worker/Dockerfile ./worker
