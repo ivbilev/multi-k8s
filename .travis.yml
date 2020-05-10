@@ -23,10 +23,11 @@ before_install:
   - gcloud container clusters get-credentials multi-cluster
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   #this is per project in the travis, used to log in docker cli
-  - docker build -e CI=true ivanb1/react-test -f ./client/Dockerfile.dev ./client
+  #- docker build -e CI=true ivanb1/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t ivanb1/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true ivanb1/react-test npm run test
+  - docker run ivanb1/react-test npm run test -- --coverage
 
 deploy:
   provider: script
