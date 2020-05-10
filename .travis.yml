@@ -19,7 +19,7 @@ before_install:
   - gcloud auth activate-service-account --key-file service-account.json
   #autoriztaion with sdk, activating service accoutn
   - gcloud config set project multi-k8s-276711
-  - gcloud confi set compute/zone us-central1-c
+  - gcloud config set compute/zone us-central1-c
   - gcloud container cluster get-credentials multi-cluster
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" -- password-stdin
   #this is per project in the travis, used to log in docker cli
